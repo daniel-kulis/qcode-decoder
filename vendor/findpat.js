@@ -28,6 +28,15 @@ var MAX_MODULES = 57;
 var INTEGER_MATH_SHIFT = 8;
 var CENTER_QUORUM = 2;
 
+function removeFromArray (from, to) {
+    if(!(this instanceof Array)) {
+        return;
+    }
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+}
+
 qrcode.orderBestPatterns = function (patterns) {
 	function distance( pattern1,  pattern2) {
 		xDiff = pattern1.X - pattern2.X;
@@ -432,7 +441,7 @@ function FinderPatternFinder()
 					//if (Math.abs(pattern.EstimatedModuleSize - average) > 0.2 * average)
                     if (Math.abs(pattern.EstimatedModuleSize - average) > limit)
 					{
-						this.possibleCenters.remove(i);
+						removeFromArray.call(this.possibleCenters, i);
 						i--;
 					}
 				}
